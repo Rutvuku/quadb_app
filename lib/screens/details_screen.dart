@@ -24,7 +24,13 @@ class DetailScreen extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
                 Text(name,style: TextStyle(color: Colors.red,fontSize: 25,fontWeight: FontWeight.bold),),
-                Text(rating,style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Rating: ',style: TextStyle(fontSize: 20,color: Colors.white60)),
+                    Text(rating,style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.bold),),
+                  ],
+                ),
                 Text(summary,style: TextStyle(color: Colors.white,fontSize: 21,),),
               ],
             ),

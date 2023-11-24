@@ -39,7 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: CustomNavigationBar(),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.black87,
         title: Text('QuadB Tech',style: TextStyle(color: Colors.red,fontSize: 25,fontWeight: FontWeight.bold),),
         actions: [Padding(
@@ -66,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 300,
               width: 200,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.network(
                     show.image['original'],
@@ -74,7 +77,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     fit: BoxFit.cover,
                   ),
                   Text(show.name,style: TextStyle(color: Colors.red,fontSize: 21,fontWeight: FontWeight.bold),),
-                  Text(show.rating['average'].toString(),style: TextStyle(color: Colors.white,fontSize: 21,fontWeight: FontWeight.bold),),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Rating: ',style: TextStyle(fontSize: 20,color: Colors.white60),),
+                      Text(show.rating['average'].toString(),style: TextStyle(color: Colors.white,fontSize: 21,fontWeight: FontWeight.bold),),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -82,5 +91,28 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
+  }
+}
+class CustomNavigationBar extends StatelessWidget {
+  const CustomNavigationBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+        backgroundColor: Colors.black54,
+        items: [
+          BottomNavigationBarItem(icon: InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+              },
+              child: Icon(Icons.home,color: Colors.red,)),
+              label: 'home'),
+          BottomNavigationBarItem(icon: InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
+              },
+              child: Icon(Icons.search,color: Colors.red,)),label: 'search'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings,color: Colors.red,),label: 'settings'),
+        ]);
   }
 }

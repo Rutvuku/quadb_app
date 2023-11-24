@@ -4,6 +4,7 @@ import 'package:custom_button_builder/custom_button_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:quadb_app/screens/details_screen.dart';
+import 'package:quadb_app/screens/home_screen.dart';
 
 import '../models/MoviesModel.dart';
 class SearchScreen extends StatefulWidget {
@@ -55,6 +56,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      bottomNavigationBar: CustomNavigationBar(),
       backgroundColor: Colors.black87,
       body: SafeArea(
         child: Padding(
@@ -163,71 +165,26 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-// class AnimatedSearchBar extends StatefulWidget {
-//   @override
-//   _AnimatedSearchBarState createState() => _AnimatedSearchBarState();
-// }
-//
-// class _AnimatedSearchBarState extends State<AnimatedSearchBar> {
-//   bool _isSearchActive = false;
-//   final _focusNode = FocusNode();
-//
-//   void _toggleSearch() {
-//     setState(() {
-//       _isSearchActive = !_isSearchActive;
-//     });
-//     if (!_isSearchActive) {
-//       _focusNode.unfocus();
-//     }
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: _toggleSearch,
-//       child: AnimatedContainer(
-//         duration: Duration(milliseconds: 300),
-//         width: _isSearchActive ? 200 : 40,
-//         height: 40,
-//         decoration: BoxDecoration(
-//           color: Colors.black,
-//           borderRadius: BorderRadius.circular(50),
-//           boxShadow: [
-//             BoxShadow(
-//               color: Colors.grey.shade800,
-//               offset: Offset(1.5, 1.5),
-//               blurRadius: 3.0,
-//             ),
-//             BoxShadow(
-//               color: Colors.grey.shade600,
-//               offset: Offset(-1.5, -1.5),
-//               blurRadius: 3.0,
-//             ),
-//           ],
-//         ),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Padding(
-//               padding: EdgeInsets.only(left: _isSearchActive ? 10 : 0),
-//               child: Icon(Icons.search, color: Colors.white),
-//             ),
-//             _isSearchActive ? Expanded(child: Padding(
-//               padding: EdgeInsets.only(right: 10),
-//               child: TextField(
-//                 autofocus: true,
-//                 focusNode: _focusNode,
-//                 style: TextStyle(color: Colors.white),
-//                 decoration: InputDecoration(
-//                   border: InputBorder.none,
-//                   hintText: "Type to search...",
-//                   hintStyle: TextStyle(color: Colors.white70),
-//                 ),
-//               ),
-//             )) : Container(),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+class CustomNavigationBar extends StatelessWidget {
+  const CustomNavigationBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+        backgroundColor: Colors.black54,
+        items: [
+          BottomNavigationBarItem(icon: InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+              },
+              child: Icon(Icons.home,color: Colors.red,)),
+              label: 'home'),
+          BottomNavigationBarItem(icon: InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
+              },
+              child: Icon(Icons.search,color: Colors.red,)),label: 'search'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings,color: Colors.red,),label: 'settings'),
+        ]);
+  }
+}

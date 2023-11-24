@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:quadb_app/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,21 +16,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 2),
-    );
-
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
-
-    // Navigate to the next screen after the animation completes
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
     });
 
-    // Start the animation
-    _animationController.forward();
   }
 
   @override
@@ -37,25 +27,11 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: FadeTransition(
-          opacity: _animation,
-          child: Text(
-            'Your App Name',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+        child: Container(
+          child: Lottie.asset('assets/splash2.json',fit: BoxFit.fill),
+        )
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
   }
 }
 
