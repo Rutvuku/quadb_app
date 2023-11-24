@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:custom_button_builder/custom_button_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:quadb_app/screens/details_screen.dart';
@@ -27,14 +28,11 @@ class _SearchScreenState extends State<SearchScreen> {
   }
   List<TvShowModel> apiResponse = [];
 
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
+
 
   Future<void> fetchData() async {
-    final response = await http.get(Uri.parse('https://api.tvmaze.com/search/shows?q=${searchController}'));
+    final response = await http.get(Uri.parse('https://api.tvmaze.com/search/shows?q=${searchController.text}'));
+    print(response);
     if (response.statusCode == 200) {
       setState(() {
         apiResponse = (json.decode(response.body) as List)
@@ -47,9 +45,17 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
   @override
+  void initState() {
+    super.initState();
+    setState(() {
+      fetchData();
+    });
+  }
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: Colors.black87,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(38.0),
@@ -62,7 +68,7 @@ class _SearchScreenState extends State<SearchScreen> {
               width: _isSearchActive ? 200 : 40,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: Colors.red,
                 borderRadius: BorderRadius.circular(50),
                 boxShadow: [
                   BoxShadow(
@@ -98,13 +104,33 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                   )) : Container(),
+
                 ],
               ),
+            ),
+          ),
+          CustomButton(
+            onPressed: (){
+              fetchData();
+            },
+            width: 150,
+            backgroundColor: Colors.red,
+            isThreeD: true,
+            height: 35,
+            borderRadius: 25,
+            animate: true,
+            margin: const EdgeInsets.all(10),
+            child: Text(
+              "Search",
+              style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),
             ),
           ),
             Expanded(child: ListView.builder(
               itemCount: apiResponse.length,
               itemBuilder: (context, index) {
+                // setState(() {
+                //   fetchData();
+                // });
                 var show = apiResponse[index].show;
 
                 return InkWell(
@@ -118,8 +144,8 @@ class _SearchScreenState extends State<SearchScreen> {
                       children: [
                         Image.network(
                           show.image['original'],
-                          width: 190.0,
-                          height:190.0,
+                          width: 210.0,
+                          height:210.0,
                           fit: BoxFit.cover,
                         ),
                         Text(show.name,style: TextStyle(color: Colors.red,fontSize: 21,fontWeight: FontWeight.bold),),
